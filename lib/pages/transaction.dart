@@ -1,8 +1,8 @@
 class Transaction {
-  String id;
-  String title;
-  int amount;
-  DateTime date;
+  final String id;
+  final String title;
+  final int amount;
+  final DateTime date;
   Transaction({
     required this.id,
     required this.title,
