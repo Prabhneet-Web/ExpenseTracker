@@ -6,7 +6,7 @@ class MyHomePage extends StatelessWidget {
 
   final List<Transaction> transactions = [
     Transaction(id: "t1", title: "Shoes", amount: 2000, date: DateTime.now()),
-    Transaction(id: "t1", title: "Shoes", amount: 2000, date: DateTime.now())
+    Transaction(id: "t1", title: "Shoes", amount: 4000, date: DateTime.now())
   ];
 
   @override
@@ -19,7 +19,16 @@ class MyHomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: transactions.map((tx) {
                 return Card(
-                  child: Text(tx.title),
+                  child: Row(children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
+                      child: Text("₹ " + tx.amount.toString()),
+                    ),
+                    Column(
+                      children: [Text(tx.title), Text(tx.date.toString())],
+                    )
+                  ]),
                 );
               }).toList()),
         ),
