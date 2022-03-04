@@ -9,6 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.cyan)
+              .copyWith(secondary: const Color.fromARGB(255, 168, 182, 5))),
       debugShowCheckedModeBanner: false,
       home: MyHomePage(),
     );
