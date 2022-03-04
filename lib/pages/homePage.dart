@@ -45,7 +45,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Expenses Tracker"),
+        title: const Text(
+          "Expenses Tracker",
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
         centerTitle: true,
         // backgroundColor: const Color.fromARGB(255, 1, 98, 177),
         actions: [
