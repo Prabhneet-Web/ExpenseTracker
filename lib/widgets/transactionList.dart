@@ -19,8 +19,8 @@ class TransactionList extends StatelessWidget {
               children: [
                 const SizedBox(height: 20),
                 Text(
-                  "No Transactions Added Yet",
-                  style: Theme.of(context).textTheme.titleMedium,
+                  "No Transactions Added Yet!",
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 20),
                 Lottie.asset(

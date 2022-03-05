@@ -3,6 +3,7 @@ import 'package:expense_tracker/widgets/transactionList.dart';
 import 'package:flutter/material.dart';
 
 import '../models/transaction.dart';
+import '../widgets/chart.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -24,6 +25,16 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _userTransactions.add(newTx);
     });
+  }
+
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList(); //Where allows us to run a function on every item in a list. And if that functin returns true, the item is kept in newly returned list else it's not included in that list.
   }
 
   void _startAddNewTransaction(BuildContext ctx) {
@@ -59,7 +70,12 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            children: [TransactionList(transactions: _userTransactions)],
+            children: [
+              Chart(
+                recentTransactions: _recentTransactions,
+              ),
+              TransactionList(transactions: _userTransactions)
+            ],
           ),
         ),
       ),
