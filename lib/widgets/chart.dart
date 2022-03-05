@@ -1,3 +1,4 @@
+import 'package:expense_tracker/widgets/chartBars.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expense_tracker/models/transaction.dart';
@@ -10,10 +11,10 @@ class Chart extends StatelessWidget {
     required this.recentTransactions,
   }) : super(key: key);
 
-  List<Map<String, Object>> get groupedTransactionValues {
+  List<Map<String, dynamic>> get groupedTransactionValues {
     return List.generate(7, (index) {
       final weekDays = DateTime.now().subtract(Duration(days: index));
-      int totalSum = 0;
+      double totalSum = 0;
 
       for (int i = 0; i < recentTransactions.length; i++) {
         if (recentTransactions[i].date.day == weekDays.day &&
@@ -29,15 +30,31 @@ class Chart extends StatelessWidget {
     });
   }
 
+  double get totalSpending {
+    return groupedTransactionValues.fold(0.0, (sum, item) {
+      return sum + item['amount'];
+    });
+    //Fold allows us to change a list to another type, with a certain logic we define in the function we pass to fold
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
       margin: const EdgeInsets.all(20),
       child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: groupedTransactionValues.map((data) {
-        return Text("${data['day']} : ${data['amount']}");
-      }).toList()),
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                  label: data['day'].toString(),
+                  spendingAmount: data['amount'],
+                  spendingPcnOfTotal: totalSpending == 0
+                      ? 0
+                      : (data['amount'] as double) / totalSpending),
+            );
+          }).toList()),
     );
   }
 }
