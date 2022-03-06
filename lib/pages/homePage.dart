@@ -15,12 +15,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [];
 
-  void _addNewTransaction(String txTitle, int txAmount) {
+  void _addNewTransaction(String txTitle, int txAmount, DateTime chosenDate) {
     final newTx = Transaction(
         id: DateTime.now().toString(),
         title: txTitle,
         amount: txAmount,
-        date: DateTime.now());
+        date: chosenDate);
 
     setState(() {
       _userTransactions.add(newTx);
@@ -49,6 +49,12 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
               Chart(
                 recentTransactions: _recentTransactions,
               ),
-              TransactionList(transactions: _userTransactions)
+              TransactionList(
+                  transactions: _userTransactions,
+                  deleteTransaction: _deleteTransaction)
             ],
           ),
         ),

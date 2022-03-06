@@ -19,10 +19,13 @@ class _NewTransactionState extends State<NewTransaction> {
   DateTime _selectedDate = DateTime(00, 00, 0000);
 
   void _submitData() {
+    if (_amountController.text.isEmpty) return;
     final enteredTitle = _titleController.text;
     final enteredAmount = int.parse(_amountController.text);
-    if (enteredTitle.isEmpty || enteredAmount < 0) return;
-    widget.addTx(enteredTitle, enteredAmount);
+    if (enteredTitle.isEmpty ||
+        enteredAmount < 0 ||
+        _selectedDate == DateTime(00, 00, 0000)) return;
+    widget.addTx(enteredTitle, enteredAmount, _selectedDate);
     Navigator.of(context).pop();
   }
 
@@ -63,10 +66,11 @@ class _NewTransactionState extends State<NewTransaction> {
             SizedBox(
               height: 80,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(_selectedDate == DateTime(00, 00, 000)
                       ? "No Date Chosen!"
-                      : DateFormat.yMd().format(_selectedDate)),
+                      : "Picked Date:- ${DateFormat.yMd().format(_selectedDate)}"),
                   const SizedBox(width: 10),
                   TextButton(
                     child: const Text(

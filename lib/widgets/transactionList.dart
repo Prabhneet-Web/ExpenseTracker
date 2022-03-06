@@ -1,13 +1,18 @@
-import 'package:expense_tracker/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
+import 'package:expense_tracker/models/transaction.dart';
+
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final Function deleteTransaction;
 
-  const TransactionList({Key? key, required this.transactions})
-      : super(key: key);
+  const TransactionList({
+    Key? key,
+    required this.transactions,
+    required this.deleteTransaction,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class TransactionList extends StatelessWidget {
                 const SizedBox(height: 20),
                 const Text(
                   "No Transactions Added Yet!",
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 20),
                 Lottie.asset(
@@ -31,7 +36,8 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Card(
-                  margin: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                   elevation: 3,
                   child: ListTile(
                     leading: CircleAvatar(
@@ -48,6 +54,11 @@ class TransactionList extends StatelessWidget {
                     ),
                     subtitle: Text(
                         DateFormat.yMMMd().format(transactions[index].date)),
+                    trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        color: Theme.of(context).errorColor,
+                        onPressed: () =>
+                            deleteTransaction(transactions[index].id)),
                   ),
                 );
               },
