@@ -18,7 +18,7 @@ class TransactionList extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                Text(
+                const Text(
                   "No Transactions Added Yet!",
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                 ),
@@ -31,39 +31,24 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Card(
-                  child: Row(children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 15),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Theme.of(context).primaryColorDark,
-                              width: 2)),
-                      child: Text(
-                        "₹ ${transactions[index].amount}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Theme.of(context).primaryColorDark),
+                  margin: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  elevation: 3,
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: FittedBox(
+                            child: Text("₹ ${transactions[index].amount}")),
                       ),
-                      padding: const EdgeInsets.all(7),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          transactions[index].title,
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w800),
-                        ),
-                        Text(
-                          DateFormat.yMMMMd().format(transactions[index].date),
-                          style:
-                              const TextStyle(color: Colors.grey, fontSize: 12),
-                        )
-                      ],
-                    )
-                  ]),
+                    title: Text(
+                      transactions[index].title,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                        DateFormat.yMMMd().format(transactions[index].date)),
+                  ),
                 );
               },
               itemCount: transactions.length,
