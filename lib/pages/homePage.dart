@@ -1,12 +1,11 @@
 import 'package:expense_tracker/widgets/newTransaction.dart';
 import 'package:expense_tracker/widgets/transactionList.dart';
 import 'package:flutter/material.dart';
-
 import '../models/transaction.dart';
 import '../widgets/chart.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
