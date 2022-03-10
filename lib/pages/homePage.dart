@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(
         DateTime.now().subtract(
-          Duration(days: 7),
+          const Duration(days: 7),
         ),
       );
     }).toList(); //Where allows us to run a function on every item in a list. And if that functin returns true, the item is kept in newly returned list else it's not included in that list.
@@ -63,7 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
-        // backgroundColor: const Color.fromARGB(255, 1, 98, 177),
         actions: [
           IconButton(
               onPressed: () {

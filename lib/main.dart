@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.cyan)
               .copyWith(secondary: const Color.fromARGB(255, 168, 182, 5))),
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }

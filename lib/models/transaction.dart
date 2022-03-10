@@ -1,4 +1,4 @@
-class Transaction {
+class Transaction  {
   final String id;
   final String title;
   final int amount;
