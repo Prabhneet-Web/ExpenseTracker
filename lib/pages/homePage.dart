@@ -1,7 +1,7 @@
 import 'package:expense_tracker/widgets/transactionList.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/HomePageProvider.dart';
+import '../providers/homePageProvider.dart';
 import '../widgets/chart.dart';
 
 class MyHomePage extends StatefulWidget {

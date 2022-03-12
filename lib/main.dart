@@ -1,5 +1,5 @@
 import 'package:expense_tracker/pages/homePage.dart';
-import 'package:expense_tracker/providers/HomePageProvider.dart';
+import 'package:expense_tracker/providers/homePageProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
