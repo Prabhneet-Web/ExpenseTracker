@@ -1,7 +1,7 @@
-import 'package:expense_tracker/widgets/newTransaction.dart';
 import 'package:expense_tracker/widgets/transactionList.dart';
 import 'package:flutter/material.dart';
-import '../models/transaction.dart';
+import 'package:provider/provider.dart';
+import '../providers/HomePageProvider.dart';
 import '../widgets/chart.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -12,84 +12,53 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [];
-
-  void _addNewTransaction(String txTitle, int txAmount, DateTime chosenDate) {
-    final newTx = Transaction(
-        id: DateTime.now().toString(),
-        title: txTitle,
-        amount: txAmount,
-        date: chosenDate);
-
-    setState(() {
-      _userTransactions.add(newTx);
-    });
-  }
-
-  List<Transaction> get _recentTransactions {
-    return _userTransactions.where((tx) {
-      return tx.date.isAfter(
-        DateTime.now().subtract(
-          const Duration(days: 7),
-        ),
-      );
-    }).toList(); //Where allows us to run a function on every item in a list. And if that functin returns true, the item is kept in newly returned list else it's not included in that list.
-  }
-
-  void _startAddNewTransaction(BuildContext ctx) {
-    showModalBottomSheet(
-        context: ctx,
-        builder: (_) {
-          return GestureDetector(
-            onTap: () {},
-            child: NewTransaction(addTx: _addNewTransaction),
-            behavior: HitTestBehavior.opaque,
-          );
-        });
-  }
-
-  void _deleteTransaction(String id) {
-    setState(() {
-      _userTransactions.removeWhere((tx) => tx.id == id);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Expenses Tracker",
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                _startAddNewTransaction(context);
+        appBar: AppBar(
+          title: const Text(
+            "Expenses Tracker",
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+          centerTitle: true,
+          actions: [
+            Consumer<HomePageProvider>(
+              builder: (context, value, child) {
+                return IconButton(
+                    onPressed: () {
+                      value.startAddNewTransaction(context);
+                    },
+                    icon: const Icon(Icons.add));
               },
-              icon: const Icon(Icons.add))
-        ],
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Chart(
-                recentTransactions: _recentTransactions,
-              ),
-              TransactionList(
-                  transactions: _userTransactions,
-                  deleteTransaction: _deleteTransaction)
-            ],
+            ),
+          ],
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Consumer<HomePageProvider>(
+              builder: (context, value, child) {
+                return Column(
+                  children: [
+                    Chart(
+                      recentTransactions: value.recentTransactions,
+                    ),
+                    TransactionList(
+                        transactions: value.userTransactions,
+                        deleteTransaction: value.deleteTransaction),
+                  ],
+                );
+              },
+            ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _startAddNewTransaction(context);
+        floatingActionButton: Consumer<HomePageProvider>(
+          builder: (context, value, child) {
+            return FloatingActionButton(
+                onPressed: () {
+                  value.startAddNewTransaction(context);
+                },
+                child: const Icon(Icons.add));
           },
-          child: const Icon(Icons.add)),
-    );
+        ));
   }
 }
