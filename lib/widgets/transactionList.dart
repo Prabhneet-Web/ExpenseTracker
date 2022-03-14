@@ -4,6 +4,8 @@ import 'package:lottie/lottie.dart';
 
 import 'package:expense_tracker/models/transaction.dart';
 
+import '../database/transactionListDb.dart';
+
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
   final Function deleteTransaction;
@@ -14,6 +16,8 @@ class TransactionList extends StatelessWidget {
     required this.deleteTransaction,
   }) : super(key: key);
 
+  
+  
   @override
   Widget build(BuildContext context) {
     return Container(
