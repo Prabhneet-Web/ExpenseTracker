@@ -41,6 +41,4 @@ class HomePageProvider with ChangeNotifier {
     userTransactions.removeWhere((tx) => tx.id == id);
     notifyListeners();
   }
-
-  
 }
