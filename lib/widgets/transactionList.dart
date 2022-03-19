@@ -16,8 +16,6 @@ class TransactionList extends StatelessWidget {
     required this.deleteTransaction,
   }) : super(key: key);
 
-  
-  
   @override
   Widget build(BuildContext context) {
     return Container(

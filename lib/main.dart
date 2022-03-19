@@ -1,9 +1,17 @@
 import 'package:expense_tracker/pages/homePage.dart';
 import 'package:expense_tracker/providers/homePageProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(const MyApp());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -16,6 +24,7 @@ class MyApp extends StatelessWidget {
                 .copyWith(secondary: const Color.fromARGB(255, 168, 182, 5))),
         debugShowCheckedModeBanner: false,
         home: ChangeNotifierProvider<HomePageProvider>(
-            create: (context) => HomePageProvider(), child: const MyHomePage()));
+            create: (context) => HomePageProvider(),
+            child: const MyHomePage()));
   }
 }
