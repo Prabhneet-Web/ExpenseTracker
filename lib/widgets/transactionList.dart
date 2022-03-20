@@ -18,54 +18,50 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      child: transactions.isEmpty
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                const Text(
-                  "No Transactions Added Yet!",
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 20),
-                Lottie.asset(
-                  "lib/assets/images/Empty.json",
-                ),
-              ],
-            )
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                return Card(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                  elevation: 3,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      child: Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: FittedBox(
-                            child: Text("₹ ${transactions[index].amount}")),
-                      ),
+    return transactions.isEmpty
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              const Text(
+                "No Transactions Added Yet!",
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 20),
+              Lottie.asset(
+                "lib/assets/images/Empty.json",
+              ),
+            ],
+          )
+        : ListView.builder(
+            itemBuilder: (context, index) {
+              return Card(
+                margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                elevation: 3,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 30,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: FittedBox(
+                          child: Text("₹ ${transactions[index].amount}")),
                     ),
-                    title: Text(
-                      transactions[index].title,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                        DateFormat.yMMMd().format(transactions[index].date)),
-                    trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        color: Theme.of(context).errorColor,
-                        onPressed: () =>
-                            deleteTransaction(transactions[index].id)),
                   ),
-                );
-              },
-              itemCount: transactions.length,
-            ),
-    );
+                  title: Text(
+                    transactions[index].title,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle:
+                      Text(DateFormat.yMMMd().format(transactions[index].date)),
+                  trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                      onPressed: () =>
+                          deleteTransaction(transactions[index].id)),
+                ),
+              );
+            },
+            itemCount: transactions.length,
+          );
   }
 }
