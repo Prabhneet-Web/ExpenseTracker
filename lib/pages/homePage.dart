@@ -12,6 +12,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool _showChart = false;
+
   final appBar = AppBar(
     title: const Text(
       "Expenses Tracker",
@@ -40,24 +42,38 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (context, value, child) {
                 return Column(
                   children: [
-                    Container(
-                      height: (MediaQuery.of(context).size.height -
-                              appBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top) *
-                          0.23,
-                      child: Chart(
-                        recentTransactions: value.recentTransactions,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Show Chart"),
+                        Switch(
+                            value: _showChart,
+                            onChanged: (val) {
+                              setState(() {
+                                _showChart = val;
+                              });
+                            })
+                      ],
                     ),
-                    Container(
-                      height: (MediaQuery.of(context).size.height -
-                              appBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top) *
-                          0.7,
-                      child: TransactionList(
-                          transactions: value.userTransactions,
-                          deleteTransaction: value.deleteTransaction),
-                    ),
+                    _showChart
+                        ? Container(
+                            height: (MediaQuery.of(context).size.height -
+                                    appBar.preferredSize.height -
+                                    MediaQuery.of(context).padding.top) *
+                                0.23,
+                            child: Chart(
+                              recentTransactions: value.recentTransactions,
+                            ),
+                          )
+                        : Container(
+                            height: (MediaQuery.of(context).size.height -
+                                    appBar.preferredSize.height -
+                                    MediaQuery.of(context).padding.top) *
+                                0.7,
+                            child: TransactionList(
+                                transactions: value.userTransactions,
+                                deleteTransaction: value.deleteTransaction),
+                          ),
                   ],
                 );
               },
