@@ -12,39 +12,68 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool _showChart = false;
+
+  final appBar = AppBar(
+    title: const Text(
+      "Expenses Tracker",
+      style: TextStyle(fontWeight: FontWeight.w600),
+    ),
+    centerTitle: true,
+    actions: [
+      Consumer<HomePageProvider>(
+        builder: (context, value, child) {
+          return IconButton(
+              onPressed: () {
+                value.startAddNewTransaction(context);
+              },
+              icon: const Icon(Icons.add));
+        },
+      ),
+    ],
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Expenses Tracker",
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-          centerTitle: true,
-          actions: [
-            Consumer<HomePageProvider>(
-              builder: (context, value, child) {
-                return IconButton(
-                    onPressed: () {
-                      value.startAddNewTransaction(context);
-                    },
-                    icon: const Icon(Icons.add));
-              },
-            ),
-          ],
-        ),
+        appBar: appBar,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Consumer<HomePageProvider>(
               builder: (context, value, child) {
                 return Column(
                   children: [
-                    Chart(
-                      recentTransactions: value.recentTransactions,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Show Chart"),
+                        Switch(
+                            value: _showChart,
+                            onChanged: (val) {
+                              setState(() {
+                                _showChart = val;
+                              });
+                            })
+                      ],
                     ),
-                    TransactionList(
-                        transactions: value.userTransactions,
-                        deleteTransaction: value.deleteTransaction),
+                    _showChart
+                        ? Container(
+                            height: (MediaQuery.of(context).size.height -
+                                    appBar.preferredSize.height -
+                                    MediaQuery.of(context).padding.top) *
+                                0.23,
+                            child: Chart(
+                              recentTransactions: value.recentTransactions,
+                            ),
+                          )
+                        : Container(
+                            height: (MediaQuery.of(context).size.height -
+                                    appBar.preferredSize.height -
+                                    MediaQuery.of(context).padding.top) *
+                                0.7,
+                            child: TransactionList(
+                                transactions: value.userTransactions,
+                                deleteTransaction: value.deleteTransaction),
+                          ),
                   ],
                 );
               },

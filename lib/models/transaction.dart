@@ -9,7 +9,7 @@ class TransactionFields {
 }
 
 class Transaction {
-  final int id;
+  final String id;
   final String title;
   final int amount;
   final DateTime date;
@@ -26,7 +26,7 @@ class Transaction {
       required this.amount,
       required this.date});
 
-  Transaction copy({int? id, String? title, int? amount, DateTime? date}) =>
+  Transaction copy({String? id, String? title, int? amount, DateTime? date}) =>
       Transaction(
           id: id ?? this.id,
           title: title ?? this.title,
@@ -46,7 +46,7 @@ class Transaction {
 
   static Transaction fromJson(Map<String, Object?> json) {
     return Transaction.withId(
-        id: json[TransactionFields.colId] as int,
+        id: json[TransactionFields.colId] as String,
         title: json[TransactionFields.colTitle] as String,
         amount: json[TransactionFields.colAmount] as int,
         date: DateTime.parse(json[TransactionFields.colDate] as String));
