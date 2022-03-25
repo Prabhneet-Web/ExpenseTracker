@@ -34,6 +34,8 @@ class _MyHomePageState extends State<MyHomePage> {
   );
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return Scaffold(
         appBar: appBar,
         body: SafeArea(
@@ -42,38 +44,60 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (context, value, child) {
                 return Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Show Chart"),
-                        Switch(
-                            value: _showChart,
-                            onChanged: (val) {
-                              setState(() {
-                                _showChart = val;
-                              });
-                            })
-                      ],
-                    ),
-                    _showChart
-                        ? Container(
-                            height: (MediaQuery.of(context).size.height -
-                                    appBar.preferredSize.height -
-                                    MediaQuery.of(context).padding.top) *
-                                0.23,
-                            child: Chart(
-                              recentTransactions: value.recentTransactions,
+                    if (isLandscape)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Show Chart"),
+                          Switch(
+                              value: _showChart,
+                              onChanged: (val) {
+                                setState(() {
+                                  _showChart = val;
+                                });
+                              })
+                        ],
+                      ),
+                    if (!isLandscape)
+                      Container(
+                        height: (MediaQuery.of(context).size.height -
+                                appBar.preferredSize.height -
+                                MediaQuery.of(context).padding.top) *
+                            0.26,
+                        child: Chart(
+                          recentTransactions: value.recentTransactions,
+                        ),
+                      ),
+                    if (!isLandscape)
+                      Container(
+                        height: (MediaQuery.of(context).size.height -
+                                appBar.preferredSize.height -
+                                MediaQuery.of(context).padding.top) *
+                            0.7,
+                        child: TransactionList(
+                            transactions: value.userTransactions,
+                            deleteTransaction: value.deleteTransaction),
+                      ),
+                    if (isLandscape)
+                      _showChart
+                          ? Container(
+                              height: (MediaQuery.of(context).size.height -
+                                      appBar.preferredSize.height -
+                                      MediaQuery.of(context).padding.top) *
+                                  0.7,
+                              child: TransactionList(
+                                  transactions: value.userTransactions,
+                                  deleteTransaction: value.deleteTransaction),
+                            )
+                          : Container(
+                              height: (MediaQuery.of(context).size.height -
+                                      appBar.preferredSize.height -
+                                      MediaQuery.of(context).padding.top) *
+                                  0.7,
+                              child: TransactionList(
+                                  transactions: value.userTransactions,
+                                  deleteTransaction: value.deleteTransaction),
                             ),
-                          )
-                        : Container(
-                            height: (MediaQuery.of(context).size.height -
-                                    appBar.preferredSize.height -
-                                    MediaQuery.of(context).padding.top) *
-                                0.7,
-                            child: TransactionList(
-                                transactions: value.userTransactions,
-                                deleteTransaction: value.deleteTransaction),
-                          ),
                   ],
                 );
               },

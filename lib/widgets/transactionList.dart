@@ -19,20 +19,23 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return transactions.isEmpty
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              const Text(
-                "No Transactions Added Yet!",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 20),
-              Lottie.asset(
-                "lib/assets/images/Empty.json",
-              ),
-            ],
-          )
+        ? LayoutBuilder(builder: (ctx, constraints) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                const Text(
+                  "No Transactions Added Yet!",
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 20),
+                Lottie.asset(
+                  "lib/assets/images/Empty.json",
+                  height: constraints.maxHeight * 0.6
+                ),
+              ],
+            );
+          })
         : ListView.builder(
             itemBuilder: (context, index) {
               return Card(

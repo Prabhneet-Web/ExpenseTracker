@@ -8,10 +8,10 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   //This will set the orientation to the potrait mode only
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
+  // await SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  //   DeviceOrientation.portraitDown,
+  // ]);
   runApp(const MyApp());
 }
 
