@@ -29,10 +29,8 @@ class TransactionList extends StatelessWidget {
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 20),
-                Lottie.asset(
-                  "lib/assets/images/Empty.json",
-                  height: constraints.maxHeight * 0.6
-                ),
+                Lottie.asset("lib/assets/images/Empty.json",
+                    height: constraints.maxHeight * 0.6),
               ],
             );
           })
@@ -56,11 +54,19 @@ class TransactionList extends StatelessWidget {
                   ),
                   subtitle:
                       Text(DateFormat.yMMMd().format(transactions[index].date)),
-                  trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      color: Theme.of(context).errorColor,
-                      onPressed: () =>
-                          deleteTransaction(transactions[index].id)),
+                  trailing: MediaQuery.of(context).size.width > 360
+                      ? TextButton.icon(
+                          style: TextButton.styleFrom(
+                              primary: (Theme.of(context).errorColor)),
+                          onPressed: () =>
+                              deleteTransaction(transactions[index].id),
+                          icon: const Icon(Icons.delete),
+                          label: const Text("Delete"))
+                      : IconButton(
+                          icon: const Icon(Icons.delete),
+                          color: Theme.of(context).errorColor,
+                          onPressed: () =>
+                              deleteTransaction(transactions[index].id)),
                 ),
               );
             },

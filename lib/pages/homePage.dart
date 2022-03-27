@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:expense_tracker/widgets/transactionList.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,8 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
   );
   @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
     return Scaffold(
         appBar: appBar,
         body: SafeArea(
@@ -49,7 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Text("Show Chart"),
-                          Switch(
+                          Switch.adaptive(
+                              activeColor:
+                                  Theme.of(context).colorScheme.secondary,
                               value: _showChart,
                               onChanged: (val) {
                                 setState(() {
@@ -60,19 +64,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     if (!isLandscape)
                       Container(
-                        height: (MediaQuery.of(context).size.height -
+                        height: (mediaQuery.size.height -
                                 appBar.preferredSize.height -
-                                MediaQuery.of(context).padding.top) *
-                            0.26,
+                                mediaQuery.padding.top) *
+                            0.23,
                         child: Chart(
                           recentTransactions: value.recentTransactions,
                         ),
                       ),
                     if (!isLandscape)
                       Container(
-                        height: (MediaQuery.of(context).size.height -
+                        height: (mediaQuery.size.height -
                                 appBar.preferredSize.height -
-                                MediaQuery.of(context).padding.top) *
+                                mediaQuery.padding.top) *
                             0.7,
                         child: TransactionList(
                             transactions: value.userTransactions,
@@ -81,18 +85,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     if (isLandscape)
                       _showChart
                           ? Container(
-                              height: (MediaQuery.of(context).size.height -
+                              height: (mediaQuery.size.height -
                                       appBar.preferredSize.height -
-                                      MediaQuery.of(context).padding.top) *
-                                  0.7,
-                              child: TransactionList(
-                                  transactions: value.userTransactions,
-                                  deleteTransaction: value.deleteTransaction),
+                                      mediaQuery.padding.top) *
+                                  0.6,
+                              child: Chart(
+                                recentTransactions: value.recentTransactions,
+                              ),
                             )
                           : Container(
-                              height: (MediaQuery.of(context).size.height -
+                              height: (mediaQuery.size.height -
                                       appBar.preferredSize.height -
-                                      MediaQuery.of(context).padding.top) *
+                                      mediaQuery.padding.top) *
                                   0.7,
                               child: TransactionList(
                                   transactions: value.userTransactions,
@@ -104,14 +108,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
-        floatingActionButton: Consumer<HomePageProvider>(
-          builder: (context, value, child) {
-            return FloatingActionButton(
-                onPressed: () {
-                  value.startAddNewTransaction(context);
+        floatingActionButton: Platform.isIOS
+            ? Container()
+            : Consumer<HomePageProvider>(
+                builder: (context, value, child) {
+                  return FloatingActionButton(
+                      onPressed: () {
+                        value.startAddNewTransaction(context);
+                      },
+                      child: const Icon(Icons.add));
                 },
-                child: const Icon(Icons.add));
-          },
-        ));
+              ));
   }
 }
